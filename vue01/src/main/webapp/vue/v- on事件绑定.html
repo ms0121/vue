@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>vue</title>
+</head>
+<body>
+
+<!--
+    目的：实现每点击一次按钮，age的年龄都会不断的进行自加
+-->
+<div id="app">
+    <span v-text="msg"></span>, 欢迎您的到来！
+    <br>
+    当前的年龄是: <span v-text="age"></span><br>
+    用户的名字是: <span v-text="name"></span><br>
+    <input type="button" value="v-on进行年龄 +1" v-on:click="addAge"><br>
+    <!-- v-on: 可以直接简化写为  @符号       -->
+    <input type="button" value="@简化写法进行年龄 -1" @click="delAge">
+    <br>
+    <!-- 可以实现函数之间参数的传递   -->
+    <input type="button" value="固定值" @click="defaultAge(23, 'lisi')">
+</div>
+
+<!-- 引入vue依赖-->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    const vue = new Vue({
+        el: "#app", // element, 表示用来指定vue的实例作用范围，即当前vue的作用范围就是app的这个部分
+        data: {   // 用来给vue实力定义一些相关数据
+            msg: "vue",
+            age: 23,
+            name: '',
+        },
+        methods: {
+            addAge: function () {
+                this.age++;
+            },
+            // 函数可以直接写为 delAge()的方式进行
+            // delAge: function () {
+            //     this.age--;
+            // }
+            // 日后用的比较多编写方式
+            delAge() {
+                this.age--;
+            },
+
+            defaultAge(age, name) {
+                this.age = age;
+                this.name = name;
+            }
+        }
+    })
+</script>
+</body>
+</html>
