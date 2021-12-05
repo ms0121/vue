@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>vue</title>
+</head>
+<body>
+
+<!--事件冒泡： 可以理解为子类的事件被执行了，父容器中的事件也会被执行
+       解决办法：在事件的后面添加.stop来阻止事件冒泡的发生
+    但是如果有多个的情况下，每个单击事件都要使用stop显得很冗余，
+    所以可以在div的上面添加一个self表示只有自己发生点击后才会去执行
+
+-->
+<div id="app" @click.self="divClick">
+    <input type="button" value="按钮" @click.stop="btnClick"><br>
+    <input type="button" value="按钮2" @click="btnClick"><br>
+    <br>
+    <!--
+        prevent阻止事件的默认行为:也就是阻止事件发生跳转
+        once:只执行一次的默认行为
+    -->
+    <a href="http://www.baidu.com" @click.prevent="pre">百度百科1</a>
+    <!--  当前的阻止行为只会限制一次，第二次点击的时候会进行默认链接的跳转  -->
+    <a href="http://www.baidu.com" @click.prevent.once="pre">百度百科2</a>
+</div>
+
+
+<!-- 引入vue依赖-->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    const vue = new Vue({
+        el: "#app", // element, 表示用来指定vue的实例作用范围，即当前vue的作用范围就是app的这个部分
+        data: {   // 用来给vue实力定义一些相关数据
+
+        },
+        methods: {
+            btnClick() {
+                alert("按钮被点击了");
+            },
+            divClick() {
+                alert("div被点击了");
+            },
+            pre() {
+                alert("链接被点击了");
+            }
+        }
+    })
+</script>
+</body>
+</html>

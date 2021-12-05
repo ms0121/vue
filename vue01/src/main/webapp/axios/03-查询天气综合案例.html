@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>vue</title>
+</head>
+<body>
+
+    <div id="app">
+        <!--  添加了回车键，删除键的事件      -->
+        <input type="text" v-model="name" @keyup.enter="query" @keyup.delete="show">
+        <input type="button" value="搜索" @click="query"><br>
+        <span v-for="city in citys">&nbsp;&nbsp;
+            <!--   prevent:禁止点击之后出现跳转         -->
+            <a href="" @click.prevent="find(city)">{{city}}</a>
+        </span>
+        <hr>
+        <span v-show="isShow">{{name}}: 天气情况: {{msg}}!</span>
+    </div>
+
+<!-- 引入vue依赖-->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<!--  引入axios依赖，实现js的异步请求  -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    const vue = new Vue({
+        el: "#app", // element, 表示用来指定vue的实例作用范围，即当前vue的作用范围就是app的这个部分
+        data: {   // 用来给vue实力定义一些相关数据
+            citys:["北京", "上海", "广州","深圳"],
+            name:"",
+            msg:'',
+            isShow:false,
+        },
+        methods: {
+            query() {
+                // console.log(this.name);
+                axios.get("http://localhost:8081/city/find?city=" + this.name).then(response => {
+                    console.log(response.data);
+                    this.msg = response.data.msg;
+                    this.isShow = true;
+                }).catch(error => {
+                    console.log(error);
+                })
+            },
+
+            // 当删除文本框中的参数时，不显示span中的内容
+            show() {
+                this.isShow = false;
+            },
+
+            find(name){
+                this.name = name;
+                this.query();
+            }
+        }
+    })
+</script>
+</body>
+</html>

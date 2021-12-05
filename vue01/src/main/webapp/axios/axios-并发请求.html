@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>vue</title>
+</head>
+<body>
+
+    <div id="app">
+
+    </div>
+
+<!-- 引入vue依赖-->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<!--  引入axios依赖，实现js的异步请求  -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    // 查询请求
+    function get(){
+        return axios.get("http://localhost:8081/user/findById?id=1");
+    }
+
+    function save(){
+        return axios.post("http://localhost:8081/user/save", {
+            "name":"张三丰",
+            "age":30,
+            "email":"14@qq.com"
+        });
+    }
+
+    // 执行并发请求
+    axios.all([get(), save()]).then(axios.spread(function (res1, res2){
+        console.log(res1);
+        console.log(res2);
+    }));
+
+</script>
+</body>
+</html>
