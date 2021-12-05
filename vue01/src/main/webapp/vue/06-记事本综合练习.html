@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>记事本综合案例练习</title>
+</head>
+<body>
+    <!--记事本综合案例练习-->
+    <div id="app">
+        <input type="text" v-model="msg"><input type="button" value="添加到记事本" @click="add">
+        <br>
+        <ul>
+            <li v-for="item, index in lists">
+                {{index + 1}}、{{item}}   <a href="Javascript:;" @click="del(index)">删除</a>
+            </li>
+        </ul>
+        <hr>
+        总数量: {{lists.length}} 条 <input type="button" value="删除所有" @click="delAll">
+    </div>
+
+<!-- 引入vue依赖-->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    const vue = new Vue({
+        el: "#app", // element, 表示用来指定vue的实例作用范围，即当前vue的作用范围就是app的这个部分
+        data: {   // 用来给vue实力定义一些相关数据
+            lists:[],
+            msg:''
+        },
+        methods: {
+            add(){
+                // console.log(this.msg);
+                this.lists.push(this.msg); // 必须要使用this,this表示当前的实例，msg即为当前实例的属性
+                this.msg = '';
+            },
+
+            del(index){
+                // 第一个参数表示从哪个下标开始删除信息，第二个参数表示删除几条
+                this.lists.splice(index, 1);
+            },
+
+            delAll(){
+                // 清空所有的列表数据信息
+                this.lists = [];
+            }
+        }
+    })
+</script>
+</body>
+</html>

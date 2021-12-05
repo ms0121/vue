@@ -18,9 +18,10 @@
 <!--            {{index}}: {{name}}: {{age}}-->
 <!--        </span>-->
 <!--        <hr>-->
-<!--        <span v-for="(u, index) in user">-->
-<!--            {{index}}: {{u.name}} : {{u.age}}-->
-<!--        </span>-->
+        <span v-for="(u, index) in user">
+            {{index}}: =========姓名:{{u.name}} ==========年龄:{{u.age}}
+            <br>
+        </span>
 
         <ul>
             <li v-for="a,index in arr">{{index}}: {{a}}</li>
@@ -41,7 +42,10 @@
     const vue = new Vue({
         el: "#app", // element, 表示用来指定vue的实例作用范围，即当前vue的作用范围就是app的这个部分
         data: {   // 用来给vue实力定义一些相关数据
-            user:{name:"zhangsan", age:23},
+            user:[
+                {name:"zhangsan", age:23},
+                {name:"lisi", age:20},
+            ],
             arr:['北京', '上海', '深圳'],
             msg:'',
         },
