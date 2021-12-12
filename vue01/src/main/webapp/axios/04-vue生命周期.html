@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  <title>vue生命周期函数</title>
+</head>
+
+<body>
+<div id="app">
+  <span id="sp"> {{ msg }} </span>
+  <input type="button" value="改变data的值" @click="changeData">
+</div>
+<!-- 引入Vue  -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+  const app = new Vue({
+    el: "#app",
+    data: {
+      msg: "hello Vue.js!",
+    },
+    methods: {
+      changeData() {
+        // this.msg = "Vue.js niubility!";
+        this.msg = Math.random();
+      }
+    },
+    // ====================初始化阶段====================
+    // 1.生命周期中第一个函数,该函数在执行时Vue实例仅仅完成了自身事件的绑定和生命周期函数的初始化工作,Vue实例中还没有 Data el methods相关属性
+    beforeCreate() {
+      console.log("beforeCreate: " + this.msg);
+    },
+    // 2.生命周期中第二个函数,该函数在执行时Vue实例已经初始化了data属性和methods中相关方法
+    created() {
+      console.log("created:" + this.msg);
+    },
+    // 3.生命周期中第三个函数,该函数在执行时Vue将El中指定作用范围作为模板编译
+    beforeMount() {
+      console.log("beforeMount: " + document.getElementById("sp").innerText);
+    },
+    // 4.生命周期中第四个函数,该函数在执行过程中,已经将数据渲染到界面中并且已经更新页面
+    mounted() {
+      console.log("Mounted: " + document.getElementById("sp").innerText);
+    },
+    // ====================运行阶段====================
+    // 5.生命周期中第五个函数,该函数是data中数据发生变化时执行 这个事件执行时仅仅是Vue实例中data数据变化页面显示的依然是原始数据
+    beforeUpdate() {
+      console.log("beforeUpdate-vue: " + this.msg);
+      console.log("beforeUpdate-dom: " + document.getElementById("sp").innerText);
+    },
+    // 6.生命周期中第六个函数,该函数执行时data中数据发生变化,页面中数据也发生了变化  页面中数据已经和data中数据一致
+    updated() {
+      console.log("updated-vue: " + this.msg);
+      console.log("updated-dom: " + document.getElementById("sp").innerText);
+    },
+    // ====================销毁阶段====================
+    // 7.生命周期第七个函数,该函数执行时,Vue中所有数据 methods componet 都没销毁
+    beforeDestory() { },
+    // 8.生命周期的第八个函数,该函数执行时,Vue实例彻底销毁
+    destoryed() { }
+  });
+</script>
+</body>
+
+</html>
