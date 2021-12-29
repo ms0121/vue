@@ -2,17 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.liu.vue.mapper.UserMapper">
+
+    <!--  查询所有用户信息  -->
     <select id="findAll" resultType="com.liu.vue.entity.User">
         SELECT * FROM user
     </select>
 
+    <!-- 根据id查询用户信息   -->
+    <select id="findById" parameterType="string" resultType="com.liu.vue.entity.User">
+        select id, name, age, salary,phoneCode from user where id = #{id}
+    </select>
+
+    <!-- 搜索查询   -->
+    <select id="query" resultType="com.liu.vue.entity.User">
+        select id,name,age,salary,phoneCode from user
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%', #{name}, '%')
+            </if>
+            <if test="code != null and code != ''">
+                or phoneCode like concat('%', #{code}, '%')
+            </if>
+        </where>
+    </select>
+
+    <!--  添加用户信息  -->
     <insert id="save">
         insert into user(id,name,age,salary,phoneCode) values(#{id},#{name},#{age},#{salary},#{phoneCode})
     </insert>
 
-
+    <!--  删除指定的用户  -->
     <delete id="delete">
-        delete from user where id  = #{id};
+        delete from user where id = #{id};
     </delete>
+
+    <!-- 根据id修改用户信息   -->
+    <update id="update">
+        update user set name=#{name}, age=#{age},salary=#{salary},phoneCode=#{phoneCode} where id = #{id}
+    </update>
 
 </mapper>

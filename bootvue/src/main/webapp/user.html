@@ -32,14 +32,14 @@
                 <div class="col-md-8 col-lg-offset-1">
                     <form class="form-inline">
                         <div class="form-group">
-                            <label for="exampleInputName2">名字</label>
-                            <input type="text" class="form-control" id="exampleInputName2">
+                            <label for="name">名字</label>
+                            <input type="text" class="form-control" id="name" v-model="name">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail2">邮箱</label>
-                            <input type="email" class="form-control" id="exampleInputEmail2">
+                            <label for="code">电话号码</label>
+                            <input type="text" class="form-control" id="code" v-model="code">
                         </div>
-                        <button type="submit" class="btn btn-info">搜索</button>
+                        <button type="button" class="btn btn-info" @click="search">搜索</button>
                     </form>
                 </div>
             </div>
@@ -69,7 +69,7 @@
                                 <td>
                                     <button class="btn btn-danger" @click="deleteUser(user.id)">删除</button>
                                     &nbsp;&nbsp;&nbsp;
-                                    <button class="btn btn-primary">修改</button>
+                                    <button class="btn btn-primary" @click="findById(user.id)">修改</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -115,7 +115,9 @@
             el: "#app",
             data: {
                 users: [], // 接收来自后端的数据信息
-                user: {} // 用来实现数据交换（使用v-model双向绑定）
+                user: {}, // 用来实现数据交换（使用v-model双向绑定）
+                name: '',
+                code: ''
             },
             methods: {
                 findAll() {
@@ -129,6 +131,7 @@
 
                 // 添加数据
                 save() {
+                    // 对于修改操作，user中已经包含有了id这个属性，不需要额外进行传递
                     if (confirm)
                         axios.post("http://localhost/user/save", this.user).then(response => {
                             console.log(response.data.msg);
@@ -155,10 +158,36 @@
                             console.log(e);
                         })
                     }
+                },
+
+                // 根据查询用户信息
+                findById(id) {
+                    // 将用户信息设置在保存页
+                    axios.get("http://localhost/user/findById?id=" + id).then(response => {
+                        console.log(response.data);
+                        this.user = response.data;
+                    }).catch(e => {
+                        console.log(e);
+                    })
+                },
+
+                // 搜索功能
+                search() {
+                    console.log(this.name);
+                    console.log(this.code);
+                    axios.get("http://localhost/user/query?name=" + this.name + "&code=" + this.code).then(response => {
+                        this.users = response.data;
+                        this.name = '';
+                        this.code = '';
+                        //console.log(response.data);
+                    }).catch(e => {
+                        console.log(e);
+                    })
                 }
 
             },
 
+            // 页面加载完毕之后执行
             created() {
                 this.findAll();
             },
