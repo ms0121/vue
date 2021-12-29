@@ -8,14 +8,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="vue01" />
-        <module name="Demo" />
         <module name="bootvue" />
+        <module name="Demo" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="bootvue" target="1.8" />
       <module name="Demo" target="1.8" />
-      <module name="vue01" target="1.8" />
+      <module name="vue01" target="1.7" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

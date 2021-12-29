@@ -1,123 +1,171 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <!--  导入css的样式-->
     <link rel="stylesheet" href="./bootvue/css/bootstrap.min.css">
 </head>
+
 <body>
 
-<!--导航条-->
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">用户管理系统</a>
-        </div>
-
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">用户:zhangsan</a></li>
-        </ul>
-    </div><!-- /.navbar-collapse -->
-</nav>
-
-<!--中心布局-->
-<div class="container-fluid">
-
-    <!--  搜索框  -->
-    <div class="row">
-        <div class="col-md-8 col-lg-offset-1">
-            <form class="form-inline">
-                <div class="form-group">
-                    <label for="exampleInputName2">名字</label>
-                    <input type="text" class="form-control" id="exampleInputName2">
+    <div id="app">
+        <!--导航条-->
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">用户管理系统</a>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail2">邮箱</label>
-                    <input type="email" class="form-control" id="exampleInputEmail2">
-                </div>
-                <button type="submit" class="btn btn-info">搜索</button>
-            </form>
-        </div>
-    </div>
 
-    <!-- 数据区 -->
-    <div class="row" style="margin-top: 20px;">
-        <!--  数据显示  -->
-        <div class="col-md-8">
-            <!--用户信息展示-->
-            <table class="table table-striped table-bordered table-hover">
-                <!--表头-->
-                <tr>
-                    <th>ID</th>
-                    <th>姓名</th>
-                    <th>年龄</th>
-                    <th>薪资</th>
-                    <th>电话</th>
-                    <th>操作</th>
-                </tr>
-                <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>张三</td>
-                    <td>23</td>
-                    <td>2000</td>
-                    <td>1782781343</td>
-                    <td>
-                        <button class="btn btn-danger">删除</button>&nbsp;&nbsp;&nbsp;<button class="btn btn-primary">修改
-                    </button>
-                    </td>
-                </tr>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">用户:zhangsan</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </nav>
 
-                <tr>
-                    <td>2</td>
-                    <td>李四</td>
-                    <td>18</td>
-                    <td>2900</td>
-                    <td>1782781343</td>
-                    <td>
-                        <button class="btn btn-danger">删除</button>&nbsp;&nbsp;&nbsp;<button class="btn btn-primary">修改
-                    </button>
-                    </td>
-                </tr>
+        <!--中心布局-->
+        <div class="container-fluid">
+            <!--  搜索框  -->
+            <div class="row">
+                <div class="col-md-8 col-lg-offset-1">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label for="exampleInputName2">名字</label>
+                            <input type="text" class="form-control" id="exampleInputName2">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail2">邮箱</label>
+                            <input type="email" class="form-control" id="exampleInputEmail2">
+                        </div>
+                        <button type="submit" class="btn btn-info">搜索</button>
+                    </form>
+                </div>
+            </div>
 
-                </tbody>
-            </table>
-        </div>
+            <!-- 数据区 -->
+            <div class="row" style="margin-top: 20px;">
+                <!--  数据显示  -->
+                <div class="col-md-8">
+                    <!--用户信息展示-->
+                    <table class="table table-striped table-bordered table-hover">
+                        <!--表头-->
+                        <tr>
+                            <th>ID</th>
+                            <th>姓名</th>
+                            <th>年龄</th>
+                            <th>薪资</th>
+                            <th>电话</th>
+                            <th>操作</th>
+                        </tr>
+                        <tbody>
+                            <tr v-for="user, index in users" :k="user.id">
+                                <td>{{user.id}}</td>
+                                <td>{{user.name}}</td>
+                                <td>{{user.age}}</td>
+                                <td>{{user.salary}}</td>
+                                <td>{{user.phoneCode}}</td>
+                                <td>
+                                    <button class="btn btn-danger" @click="deleteUser(user.id)">删除</button>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <button class="btn btn-primary">修改</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-        <!--   存放表单-->
-        <div class="col-md-4">
-            <form>
-                <div class="form-group">
-                    <label for="username">姓名</label>
-                    <input type="text" class="form-control" id="username" placeholder="请输入名字">
+                <!--   存放表单-->
+                <div class="col-md-4">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">姓名</label>
+                            <input type="text" class="form-control" id="name" v-model="user.name" placeholder="请输入名字">
+                        </div>
+                        <div class="form-group">
+                            <label for="age">年龄</label>
+                            <input type="text" class="form-control" id="age" v-model="user.age" placeholder="请输入年龄">
+                        </div>
+                        <div class="form-group">
+                            <label for="salary">薪资</label>
+                            <input type="text" class="form-control" id="salary" v-model="user.salary"
+                                placeholder="请输入薪资">
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneCode">电话号码</label>
+                            <input type="text" class="form-control" id="phoneCode" v-model="user.phoneCode"
+                                placeholder="请输入电话号码">
+                        </div>
+                        <button type="button" class="btn btn-primary" @click="save">保存</button>
+                        <button type="button" class="btn btn-danger" @click="reset">重置</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label for="age">年龄</label>
-                    <input type="text" class="form-control" id="age" placeholder="请输入年龄">
-                </div>
-                <div class="form-group">
-                    <label for="salary">薪资</label>
-                    <input type="text" class="form-control" id="salary" placeholder="请输入薪资">
-                </div>
-                <div class="form-group">
-                    <label for="phone">电话号码</label>
-                    <input type="text" class="form-control" id="phone" placeholder="请输入电话号码">
-                </div>
-                <button type="submit" class="btn btn-primary">保存</button>
-                <button type="submit" class="btn btn-danger">重置</button>
-            </form>
+            </div>
         </div>
     </div>
 
-</div>
+    <!--导入vue.js样式-->
+    <script src="./bootvue/js/vue.js"></script>
+    <!--导入axios.js样式-->
+    <script src="./bootvue/js/axios.min.js"></script>
 
+    <script>
+        const vue = new Vue({
+            el: "#app",
+            data: {
+                users: [], // 接收来自后端的数据信息
+                user: {} // 用来实现数据交换（使用v-model双向绑定）
+            },
+            methods: {
+                findAll() {
+                    axios.get("http://localhost/user/findAll").then(response => {
+                        console.log(response.data);
+                        this.users = response.data;
+                    }).catch(e => {
+                        console.log(e);
+                    })
+                },
 
-<!--导入vue.js样式-->
-<script src="./bootvue/js/vue.js"></script>
-<!--导入axios.js样式-->
-<script src="./bootvue/js/axios.min.js"></script>
+                // 添加数据
+                save() {
+                    if (confirm)
+                        axios.post("http://localhost/user/save", this.user).then(response => {
+                            console.log(response.data.msg);
+                            this.findAll();
+                            this.user = {}; // 将表单进行置空
+                        }).catch(e => {
+                            console.log(e);
+                        })
+                },
+
+                // 置空
+                reset() {
+                    this.user = {}; // 将表单进行置空
+                },
+
+                // 删除
+                deleteUser(id) {
+                    console.log(id);
+                    if (window.confirm("确定要删除此纪录吗?")) {
+                        axios.get("http://localhost/user/delete?id=" + id).then(response => {
+                            console.log(response.data.msg);
+                            this.findAll();
+                        }).catch(e => {
+                            console.log(e);
+                        })
+                    }
+                }
+
+            },
+
+            created() {
+                this.findAll();
+            },
+        })
+    </script>
+
 
 </body>
+
 </html>
