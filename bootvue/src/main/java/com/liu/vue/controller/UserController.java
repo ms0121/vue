@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @GetMapping("query")
-    List<User> query(@Param("name") String name, @Param("code") String code){
+    List<User> query(@RequestParam("name") String name, @RequestParam("code") String code){
         return userService.query(name, code);
     }
 

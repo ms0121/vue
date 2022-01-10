@@ -15,7 +15,7 @@
 <!--  引入axios依赖，实现js的异步请求  -->
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-    <!-- 给指定的后端接口路径请求发起get请求(不传递参数)   -->
+    // 给指定的后端接口路径请求发起get请求(不传递参数)
     axios.get("http://localhost:8081/user/findAll").then(response => {
         // console.log(response);
         console.log(response.data);
